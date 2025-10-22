@@ -1,16 +1,12 @@
+// app/_layout.tsx
+import { ThemeProvider } from "@/context/ThemeContext";
 import FontAwesome from "@expo/vector-icons/FontAwesome";
 import { useFonts } from "expo-font";
 import { Stack } from "expo-router";
 import * as SplashScreen from "expo-splash-screen";
-import { useEffect } from "react";
-import "react-native-reanimated";
+import { useColorScheme } from "nativewind";
+import React, { useEffect } from "react";
 
-export {
-  // Catch any errors thrown by the Layout component.
-  ErrorBoundary,
-} from "expo-router";
-
-// Prevent the splash screen from auto-hiding before asset loading is complete.
 SplashScreen.preventAutoHideAsync();
 
 export default function RootLayout() {
@@ -19,41 +15,41 @@ export default function RootLayout() {
     ...FontAwesome.font,
   });
 
-  // Expo Router uses Error Boundaries to catch errors in the navigation tree.
   useEffect(() => {
     if (error) throw error;
   }, [error]);
-
   useEffect(() => {
-    if (loaded) {
-      SplashScreen.hideAsync();
-    }
+    if (loaded) SplashScreen.hideAsync();
   }, [loaded]);
 
-  if (!loaded) {
-    return null;
-  }
-
+  if (!loaded) return null;
   return <RootLayoutNav />;
 }
 
 function RootLayoutNav() {
+  const { colorScheme } = useColorScheme();
+
   return (
-    <Stack>
-      <Stack.Screen
-        name="index"
-        options={{ headerShown: false, title: "Home" }}
-      />
-      <Stack.Screen
-        name="profile"
-        options={{
-          headerStyle: { backgroundColor: "#a4ebff" },
-          title: "Profile",
-          headerLeft: () => (
-            <FontAwesome name="arrow-left" size={24} color="transparent" />
-          ),
-        }}
-      />
-    </Stack>
+    <ThemeProvider>
+      <Stack>
+        <Stack.Screen
+          name="index"
+          options={{
+            title: "Home",
+            headerShown: false,
+          }}
+        />
+        <Stack.Screen
+          name="profile"
+          options={{
+            title: "Profile",
+            headerStyle: {
+              backgroundColor: colorScheme === "dark" ? "#000000" : "#f7f7f7",
+            },
+            headerTintColor: colorScheme === "dark" ? "#f7f7f7" : "#000000",
+          }}
+        />
+      </Stack>
+    </ThemeProvider>
   );
 }

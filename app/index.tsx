@@ -1,23 +1,18 @@
-import '../global.css';
+import Phrase from "@/components/Typography/Phrase";
+import clsx from "clsx";
 import { Link } from "expo-router";
-import { StyleSheet, Text, View } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
+import "../global.css";
 
 export default function Home() {
   return (
-    <View style={styles.container}>
-      <Text className="text-cyan-700 text-xl">Home Screen</Text>
-      <Link href="/profile">Go to profile</Link>
-    </View>
+    <SafeAreaView
+      className={clsx("flex-1 gap-4 p-4", "dark:bg-gray-800 bg-white")}
+    >
+      <Phrase content="Home Screen" />
+      <Link href="/profile" className="text-blue-400">
+        Go to Profile
+      </Link>
+    </SafeAreaView>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-  },
-  text: {
-    color: "#da4c24",
-  },
-});

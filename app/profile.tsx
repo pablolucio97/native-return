@@ -1,22 +1,25 @@
+import Button from "@/components/Button";
+import Phrase from "@/components/Typography/Phrase";
+import clsx from "clsx";
 import { Link } from "expo-router";
-import { StyleSheet, Text, View } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
+import useTheme from "../hooks/useTheme";
 
 export default function Profile() {
+  const { theme, toggleTheme } = useTheme();
+
   return (
-    <View style={styles.container}>
-      <Text style={styles.text}>Profile Screen</Text>
-      <Link href="/">Go to home</Link>
-    </View>
+    <SafeAreaView
+      className={clsx("flex-1 gap-4 p-4", "dark:bg-gray-800 bg-white")}
+    >
+      <Phrase content="Profile Screen" />
+      <Link href="/" className="text-blue-400">
+        Go to Home
+      </Link>
+      <Button
+        title={theme === "dark" ? "Light Mode" : "Dark Mode"}
+        onPress={toggleTheme}
+      />
+    </SafeAreaView>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-  },
-  text: {
-    color: "#da4c24",
-  },
-});

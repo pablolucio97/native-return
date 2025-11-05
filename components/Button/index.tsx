@@ -1,16 +1,31 @@
-import { Pressable, Text } from "react-native";
+import clsx from "clsx";
+import { ActivityIndicator, Pressable, Text } from "react-native";
 export interface ButtonProps {
   title: string;
   onPress: () => void;
+  loading?: boolean;
+  className?: string;
 }
 
-export default function Button({ title, onPress }: ButtonProps) {
+export default function Button({
+  title,
+  onPress,
+  loading,
+  className,
+}: ButtonProps) {
   return (
     <Pressable
-      className={`bg-blue-400 ios:bg-green-400 w-fit h-12 p-2 items-center justify-center rounded-md `}
+      className={clsx(
+        "bg-primary-400 w-fit h-12 p-2 items-center justify-center rounded-md",
+        className
+      )}
       onPress={onPress}
     >
-      <Text className="text-white text-lg">{title}</Text>
+      {loading ? (
+        <ActivityIndicator color="white" />
+      ) : (
+        <Text className="text-white text-lg">{title}</Text>
+      )}
     </Pressable>
   );
 }

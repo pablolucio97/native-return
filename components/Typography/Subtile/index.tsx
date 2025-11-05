@@ -1,16 +1,16 @@
 import clsx from "clsx";
 import { Text } from "react-native";
-export interface PhraseProps {
+export interface SubtitleProps {
   content: string;
   className?: string;
 }
 
-export default function Phrase({ content, className }: PhraseProps) {
+export default function Subtitle({ content, className }: SubtitleProps) {
   return (
     <Text
       className={clsx(
-        "text-light-title dark:text-dark-title text-base",
-        "mb-1",
+        "text-xl font-semibold",
+        "text-light-title dark:text-dark-title",
         className
       )}
     >

@@ -7,6 +7,7 @@ import clsx from "clsx";
 import { Link } from "expo-router";
 import { SafeAreaView } from "react-native-safe-area-context";
 import useTheme from "../hooks/useTheme";
+import PasswordTextInput from "@/components/inputs/PasswordTextInput";
 
 export default function Profile() {
   const { theme, toggleTheme } = useTheme();
@@ -22,7 +23,7 @@ export default function Profile() {
         Go to Home
       </Link>
       <TextInput label="Input Label" />
-      <TextInput label="Input Label" />
+      <PasswordTextInput label="Password" />
       <Button
         title={theme === "dark" ? "Light Mode" : "Dark Mode"}
         onPress={toggleTheme}

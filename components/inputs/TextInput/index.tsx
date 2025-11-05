@@ -1,17 +1,26 @@
 import clsx from "clsx";
-import { useRef, useState } from "react";
-import { TextInput as RNTextInput, Text, View } from "react-native";
+import { forwardRef, ForwardRefRenderFunction, useState } from "react";
+import {
+  TextInput as RNTextInput,
+  Text,
+  TextInputProps,
+  View,
+} from "react-native";
 
-interface TextInputProps {
+interface TextInputComponentProps extends TextInputProps {
   label: string;
+  containerClassName?: string;
+  inputClassName?: string;
 }
 
-const TextInput: React.FC<TextInputProps> = ({ label }) => {
-  const inputRef = useRef<RNTextInput>(null);
+const TextInputBase: ForwardRefRenderFunction<
+  RNTextInput,
+  TextInputComponentProps
+> = ({ label, containerClassName, inputClassName, ...rest }, ref) => {
   const [focused, setFocused] = useState(false);
 
   return (
-    <View className="w-full">
+    <View className={clsx("w-full", containerClassName)}>
       <Text
         className={clsx(
           `${focused ? "font-bold " : "font-semibold "}`,
@@ -22,15 +31,20 @@ const TextInput: React.FC<TextInputProps> = ({ label }) => {
         {label}
       </Text>
       <RNTextInput
-        ref={inputRef}
+        ref={ref}
         className={clsx(
-          "w-full h-12 border border-gray-400 rounded-md p-2 pl-3 peer focus:border-primary-400"
+          "w-full h-12 border border-gray-400 rounded-md p-2 pl-3 peer focus:border-primary-400",
+          inputClassName
         )}
         aria-label={`input-${label}`}
         onFocus={() => setFocused(true)}
         onBlur={() => setFocused(false)}
+        {...rest}
       />
     </View>
   );
 };
+const TextInput = forwardRef<RNTextInput, TextInputComponentProps>(
+  TextInputBase
+);
 export default TextInput;
